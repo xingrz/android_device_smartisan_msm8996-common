@@ -1631,6 +1631,9 @@ int QCameraVideoMemory::closeNativeHandle(const void *data, bool metadata)
         LOGE("Not of type video meta buffer. Failed");
         return BAD_VALUE;
     }
+#else
+   (void)data;  // unused
+   (void)metadata;  // unused
 #endif
     return rc;
 }
