@@ -62,7 +62,7 @@ LOCAL_SRC_FILES := \
 
 LOCAL_MODULE           := libmmjpeg_interface
 LOCAL_PRELINK_MODULE   := false
-LOCAL_SHARED_LIBRARIES := libdl libcutils liblog libqomx_core libmmcamera_interface
+LOCAL_SHARED_LIBRARIES := libdl libcutils liblog libqomx_core libmmcamera_interface libutils
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_32_BIT_ONLY := $(BOARD_QTI_CAMERA_32BIT_ONLY)
