@@ -288,8 +288,10 @@ vendor/lib/libsmwrapper.so
 
 # Media
 lib/libOmxVpp.so
+lib/libextmedia_jni.so
 lib/libstagefright_soft_flacdec.so
 lib/libvpplibrary.so
+lib64/libextmedia_jni.so
 lib64/libstagefright_soft_flacdec.so
 lib64/libvpplibrary.so
 vendor/lib/libI420colorconvert.so
@@ -327,9 +329,18 @@ bin/energy-awareness
 bin/iop
 bin/msm_irqbalance
 vendor/bin/perfd
+vendor/etc/perf-profile0.conf
+vendor/etc/perf-profile1.conf
+vendor/etc/perf-profile2.conf
+vendor/etc/perf-profile3.conf
+vendor/etc/perf-profile4.conf
+vendor/etc/perf-profile5.conf
+vendor/etc/perf-profile6.conf
 vendor/lib/libqti-iop-client.so
+vendor/lib/libqti-iop.so
 vendor/lib/libqti-perfd-client.so
 vendor/lib64/libqti-iop-client.so
+vendor/lib64/libqti-iop.so
 vendor/lib64/libqti-perfd-client.so
 
 # Peripheral manager
@@ -421,8 +432,12 @@ vendor/lib64/liblqe.so
 vendor/lib64/libmdmdetect.so
 vendor/lib64/libnetmgr.so
 vendor/lib64/libqcmaputils.so
+vendor/lib64/libril-qc-ltedirectdisc.so
 vendor/lib64/libril-qc-qmi-1.so
 vendor/lib64/libril-qc-radioconfig.so
+vendor/lib64/libril-qcril-hook-oem.so
+vendor/lib64/librilqmiservices.so
+vendor/lib64/libsettings.so
 vendor/lib64/libsystem_health_mon.so
 vendor/qcril.db
 
