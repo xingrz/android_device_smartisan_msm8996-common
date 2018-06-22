@@ -221,9 +221,6 @@ include device/qcom/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
 
-# Sensors
-USE_SENSOR_MULTI_HAL := true
-
 # Shims
 TARGET_LD_SHIM_LIBS += /vendor/lib/hw/camera.msm8996.so|/vendor/lib/libshim_camera.so
 TARGET_LD_SHIM_LIBS += /vendor/lib/libmmcamera_ppeiscore.so|/vendor/lib/libshim_camera.so
