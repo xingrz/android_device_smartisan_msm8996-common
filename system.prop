@@ -63,6 +63,8 @@ vidc.enc.dcvs.extra-buff-count=2
 # disable PQ feature by default
 vendor.vidc.enc.disable.pq=true
 
+persist.media.treble_omx=false
+
 #
 # system props for the data modules
 #
