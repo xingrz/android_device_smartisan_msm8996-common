@@ -218,9 +218,7 @@ TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_smartisan
 TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
 
 # SELinux
-include device/qcom/sepolicy/sepolicy.mk
-
-BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
+BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor-minimal
 
 # Shims
 TARGET_LD_SHIM_LIBS += /vendor/lib/hw/camera.msm8996.so|/vendor/lib/libshim_camera.so
