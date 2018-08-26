@@ -220,6 +220,9 @@ TARGET_RIL_VARIANT := caf
 TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_smartisan
 TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
 
+# Security patch level
+VENDOR_SECURITY_PATCH := 2018-04-05
+
 # SELinux
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor-minimal
 
