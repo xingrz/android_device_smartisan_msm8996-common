@@ -19,12 +19,16 @@ DEVICE_PROVISIONED=1
 # Start in global mode
 ro.telephony.default_network=22
 
+debug.sf.enable_hwc_vds=1
 debug.sf.hw=1
+debug.sf.latch_unsignaled=1
 debug.egl.hw=1
 debug.gralloc.enable_fb_ubwc=1
 dalvik.vm.heapsize=36m
 dev.pm.dyn_samplingrate=1
 persist.demo.hdmirotationlock=false
+sdm.debug.disable_skip_validate=1
+debug.sf.recomputecrop=0
 
 #ro.hdmi.enable=true
 #
@@ -56,11 +60,8 @@ persist.radio.force_on_dc=true
 # Additional i/p buffer in case of encoder DCVS
 vidc.enc.dcvs.extra-buff-count=2
 
-# Set default power mode to low power for encoder
-vidc.debug.perf.mode=2
-
 # disable PQ feature by default
-vidc.enc.disable.pq=true
+vendor.vidc.enc.disable.pq=true
 
 #
 # system props for the data modules
@@ -85,6 +86,9 @@ bt.max.hfpclient.connections=1
 # System property for cabl
 ro.qualcomm.cabl=0
 
+# Property to enable display default color mode
+vendor.display.enable_default_color_mode=1
+
 #
 # System props for telephony
 # System prop to turn on CdmaLTEPhone always
@@ -93,16 +97,6 @@ telephony.lteOnCdmaDevice=1
 #Simulate sdcard on /data/media
 #
 persist.fuse_sdcard=true
-
-#system prop for Bluetooth SOC type
-qcom.bluetooth.soc=rome
-
-#system prop for wipower support
-ro.bluetooth.wipower=false
-
-#Set this true as ROME which is programmed
-#as embedded wipower mode by deafult
-ro.bluetooth.emb_wp_mode=false
 
 ro.bt.bdaddr_path=/persist/bd_addr.txt
 
@@ -157,9 +151,8 @@ ro.hwui.text_small_cache_height=1024
 ro.hwui.text_large_cache_width=2048
 ro.hwui.text_large_cache_height=1024
 
-
-# enable navigation bar
-qemu.hw.mainkeys=0
+#default usb composition
+persist.sys.usb.config=diag,serial_cdev,serial_tty,rmnet_ipa,mass_storage,adb
 
 #property to enable VDS WFD solution
 persist.hwc.enable_vds=1
@@ -175,13 +168,20 @@ persist.sys.pd_enable=0
 sdm.debug.disable_rotator_split=1
 
 #Increase cached app limit
-ro.sys.fw.bg_apps_limit=60
+ro.vendor.qti.sys.fw.bg_apps_limit=60
+
+# Create zram disk
+ro.vendor.qti.config.zram=true
 
 #Camera fullscreen doesn't show navigation bar
 Camera.no_navigation_bar=true
 
 #property for game detection feature
 debug.enable.gamed=0
+
+#properties for limiting preview size in camera
+persist.vendor.camera.display.umax=1920x1080
+persist.vendor.camera.display.lmax=1280x720
 
 #Disable face beautification
 persist.ts.postmakeup=false
@@ -192,9 +192,6 @@ ro.qti.sensors.dev_ori=false
 ro.qti.sensors.pmd=false
 ro.qti.sensors.sta_detect=false
 ro.qti.sensors.mot_detect=false
-
-#Expose aux camera for below packages
-camera.aux.packagelist=org.codeaurora.snapcam
 
 persist.radio.lte_vrte_ltd=1
 #Redirecting party number feature

@@ -53,10 +53,10 @@ if [ -s "$MY_DIR"/../$DEVICE/proprietary-files.txt ]; then
     extract "$MY_DIR"/../$DEVICE/proprietary-files.txt "$SRC" "$SECTION"
 fi
 
+"$MY_DIR"/setup-makefiles.sh
+
 BLOB_ROOT="$MK_ROOT"/vendor/"$VENDOR"/"$DEVICE_COMMON"/proprietary
 
 # Fingerprint
 sed -i 's|\x00fpc_fingerprint\x00|\x00fingerprint\x00\x00\x00\x00\x00|' $BLOB_ROOT/lib64/hw/fingerprint.fpc.so
 sed -i 's|\x00gxfingerprint\x00|\x00fingerprint\x00\x00\x00|' $BLOB_ROOT/lib64/hw/fingerprint.goodix.so
-
-"$MY_DIR"/setup-makefiles.sh
