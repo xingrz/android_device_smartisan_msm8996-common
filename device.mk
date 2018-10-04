@@ -174,9 +174,12 @@ PRODUCT_PACKAGES += \
 # GPS
 PRODUCT_PACKAGES += \
     gps.msm8996 \
+    libgnsspps \
     libgps.utils \
     libloc_core \
-    libloc_eng
+    libloc_eng \
+    libloc_pla \
+    libloc_stub
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/flp.conf:system/etc/flp.conf \
