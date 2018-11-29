@@ -21,7 +21,7 @@
 # definition file).
 #
 
-DEVICE_PATH := device/smartisan/surabaya
+COMMON_PATH := device/smartisan/msm8996-common
 
 # SDClang configuration
 TARGET_USE_SDCLANG := true
@@ -54,7 +54,7 @@ TARGET_USES_64_BIT_BINDER := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 zswap.enabled=1 cma=32M@0-0xffffffff loglevel=0 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 zswap.enabled=1 cma=32M@0-0xffffffff loglevel=0
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET := 0x01000000
@@ -64,10 +64,6 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/smartisan/msm8996
-TARGET_KERNEL_CONFIG := mokee_surabaya_defconfig
-
-# HAX: SELinux Permissive - Remove ASAP
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -119,7 +115,6 @@ AUDIO_FEATURE_ENABLED_WMA_OFFLOAD := true
 
 # Bluetooth
 BOARD_HAS_QCA_BT_ROME := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 QCOM_BT_USE_SMD_TTY := true
@@ -134,7 +129,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 # MK Hardware
 BOARD_HARDWARE_CLASS += \
     hardware/mokee/mkhw \
-    $(DEVICE_PATH)/mkhw
+    $(COMMON_PATH)/mkhw
 BOARD_USES_MOKEE_HARDWARE := true
 
 # CNE and DPM
@@ -158,6 +153,9 @@ TARGET_USES_ION := true
 TARGET_USES_OVERLAY := true
 TARGET_USES_C2D_COMPOSITION := true
 USE_OPENGL_RENDERER := true
+
+# Filesystem config
+TARGET_ANDROID_FILESYSTEM_CONFIG_H := $(COMMON_PATH)/android_filesystem_config.h
 
 # GPS
 TARGET_NO_RPC := true
@@ -195,11 +193,14 @@ TARGET_USERIMAGES_USE_EXT4 := true
 # Power
 TARGET_POWERHAL_VARIANT := qcom
 
+# Properties
+TARGET_SYSTEM_PROP := $(COMMON_PATH)/system.prop
+
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/recovery/root/recovery.fstab
 
 # RIL
 TARGET_RIL_VARIANT := caf
@@ -207,7 +208,7 @@ TARGET_RIL_VARIANT := caf
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 
-BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
+BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
 
 # Sensors
 USE_SENSOR_MULTI_HAL := true
@@ -229,4 +230,4 @@ WIFI_DRIVER_FW_PATH_P2P := "p2p"
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # inherit from the proprietary version
--include vendor/smartisan/surabaya/BoardConfigVendor.mk
+-include vendor/smartisan/msm8996-common/BoardConfigVendor.mk
