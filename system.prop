@@ -134,6 +134,7 @@ sdm.perf_hint_window=50
 
 # system prop for NFC DT
 ro.nfc.port=I2C
+ro.hardware.nfc_nci=nqx.default
 
 #property to enable WFD WL solution
 ro.vendor.wl_library=libqti-wl.so
