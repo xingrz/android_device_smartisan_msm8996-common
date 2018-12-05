@@ -87,7 +87,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.multisim.config=dsds
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.frp.pst=/dev/block/bootdevice/by-name/config
+    ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
 # Audio
 PRODUCT_PACKAGES += \
