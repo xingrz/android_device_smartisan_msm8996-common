@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/vendor/bin/sh
 # Copyright (c) 2012, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -26,63 +26,54 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-LOG_TAG="qcom-bluetooth"
-LOG_NAME="${0}:"
+target="$1"
+serial="$2"
 
-hciattach_pid=""
+# No path is set up at this point so we have to do it here.
+PATH=/sbin:/system/sbin:/system/bin:/system/xbin
+export PATH
 
-loge ()
-{
-  /system/bin/log -t $LOG_TAG -p e "$LOG_NAME $@"
-}
+mount_needed=false;
 
-logi ()
-{
-  /system/bin/log -t $LOG_TAG -p i "$LOG_NAME $@"
-}
+if [ ! -f /system/etc/boot_fixup ];then
+# This should be the first command
+# remount system as read-write.
+  mount -o rw,remount,barrier=1 /system
+  mount_needed=true;
+fi
 
-failed ()
-{
-  loge "$1: exit code $2"
-  exit $2
-}
+# **** WARNING *****
+# This runs in a single-threaded, critical path portion
+# of the Android bootup sequence.  This is to guarantee
+# all necessary system partition fixups are done before
+# the rest of the system starts up.  Run any non-
+# timing critical tasks in a separate process to
+# prevent slowdown at boot.
 
-start_hciattach ()
-{
-  /system/bin/hciattach -n /dev/ttyHS2 ath3k 3000000 &
-  hciattach_pid=$!
-  logi "start_hciattach: pid = $hciattach_pid"
-}
+# Run modem link script
+if [ -f /system/etc/init.qcom.modem_links.sh ]; then
+   /vendor/bin/init.qcom.modem_links.sh
+fi
 
-kill_hciattach ()
-{
-  logi "kill_hciattach: pid = $hciattach_pid"
-  ## careful not to kill zero or null!
-  kill -TERM $hciattach_pid
-  # this shell doesn't exit now -- wait returns for normal exit
-}
+# Run mdm link script
+if [ -f /system/etc/init.qcom.mdm_links.sh ]; then
+   /vendor/bin/init.qcom.mdm_links.sh
+fi
 
-# mimic hciattach options parsing -- maybe a waste of effort
-USAGE="hciattach [-n] [-p] [-b] [-t timeout] [-s initial_speed] <tty> <type | id> [speed] [flow|noflow] [bdaddr]"
+# Run wifi script
+if [ -f /vendor/bin/init.qcom.wifi.sh ]; then
+  /vendor/bin/init.qcom.wifi.sh "$target" "$serial"
+fi
 
-while getopts "blnpt:s:" f
-do
-  case $f in
-  b | l | n | p)  opt_flags="$opt_flags -$f" ;;
-  t)      timeout=$OPTARG;;
-  s)      initial_speed=$OPTARG;;
-  \?)     echo $USAGE; exit 1;;
-  esac
-done
-shift $(($OPTIND-1))
+# Run the sensor script
+if [ -f /system/etc/init.qcom.sensor.sh ]; then
+   /vendor/bin/init.qcom.sensor.sh
+fi
 
-# init does SIGTERM on ctl.stop for service
-trap "kill_hciattach" TERM INT
+touch /system/etc/boot_fixup
 
-logi "start hciattach"
-start_hciattach
-
-wait $hciattach_pid
-logi "Bluetooth stopped"
-
-exit 0
+if $mount_needed ;then
+# This should be the last command
+# remount system as read-only.
+  mount -o ro,remount,barrier=1 /system
+fi
