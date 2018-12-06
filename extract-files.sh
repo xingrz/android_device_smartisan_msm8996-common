@@ -58,5 +58,5 @@ fi
 BLOB_ROOT="$MK_ROOT"/vendor/"$VENDOR"/"$DEVICE_COMMON"/proprietary
 
 # Fingerprint
-sed -i 's|\x00fpc_fingerprint\x00|\x00fingerprint\x00\x00\x00\x00\x00|' $BLOB_ROOT/lib64/hw/fingerprint.fpc.so
-sed -i 's|\x00gxfingerprint\x00|\x00fingerprint\x00\x00\x00|' $BLOB_ROOT/lib64/hw/fingerprint.goodix.so
+sed -i 's|\x00fpc_fingerprint\x00|\x00fingerprint\x00\x00\x00\x00\x00|' $BLOB_ROOT/vendor/lib64/hw/fingerprint.fpc.so
+sed -i 's|\x00gxfingerprint\x00|\x00fingerprint\x00\x00\x00|' $BLOB_ROOT/vendor/lib64/hw/fingerprint.goodix.so

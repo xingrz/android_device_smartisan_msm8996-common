@@ -14,17 +14,17 @@ etc/firmware/rampatch_tlv_3.0.tlv
 etc/firmware/rampatch_tlv_3.2.tlv
 
 # Camera
-bin/mm-qcamera-daemon
-lib/hw/camera.msm8996.so
-lib/libarcsoft_agegender_detection.so
-lib/libarcsoft_beautyshot.so
-lib/libarcsoft_low_light_shot.so
-lib/libarcsoft_panorama.so
-lib/libmm-qcamera.so
-lib/libmmcamera_interface.so
-lib/libmmjpeg_interface.so
-lib/libmpbase.so
-lib/libqomx_core.so
+bin/mm-qcamera-daemon:vendor/bin/mm-qcamera-daemon
+lib/hw/camera.msm8996.so:vendor/lib/hw/camera.msm8996.so
+lib/libarcsoft_agegender_detection.so:vendor/lib/libarcsoft_agegender_detection.so
+lib/libarcsoft_beautyshot.so:vendor/lib/libarcsoft_beautyshot.so
+lib/libarcsoft_low_light_shot.so:vendor/lib/libarcsoft_low_light_shot.so
+lib/libarcsoft_panorama.so:vendor/lib/libarcsoft_panorama.so
+lib/libmm-qcamera.so:vendor/lib/libmm-qcamera.so
+lib/libmmcamera_interface.so:vendor/lib/libmmcamera_interface.so
+lib/libmmjpeg_interface.so:vendor/lib/libmmjpeg_interface.so
+lib/libmpbase.so:vendor/lib/libmpbase.so
+lib/libqomx_core.so:vendor/lib/libqomx_core.so
 vendor/lib/libChamomilePA.so
 vendor/lib/libSonyIMX318_Liteon_PdafLibrary.so
 vendor/lib/libSonyIMX318_Primax_PdafLibrary.so
@@ -988,15 +988,15 @@ vendor/etc/scve/textreco/worddecoder/korean.pos.20141226.bin
 vendor/etc/scve/textreco/worddecoder/korean_address_20150129.bin
 
 # Fingerprint - FPC
-lib64/hw/fpc_fingerprint.msm8996.so:lib64/hw/fingerprint.fpc.so
-lib64/lib_fpc_tac_shared.so
+lib64/hw/fpc_fingerprint.msm8996.so:vendor/lib64/hw/fingerprint.fpc.so
+lib64/lib_fpc_tac_shared.so:vendor/lib64/lib_fpc_tac_shared.so
 
 # Fingerprint - Goodix
-bin/gx_fpd
-lib64/hw/gxfingerprint.default.so:lib64/hw/fingerprint.goodix.so
-lib64/libfp_client.so
-lib64/libfpnav.so
-lib64/libfpservice.so
+bin/gx_fpd:vendor/bin/gx_fpd
+lib64/hw/gxfingerprint.default.so:vendor/lib64/hw/fingerprint.goodix.so
+lib64/libfp_client.so:vendor/lib64/libfp_client.so
+lib64/libfpnav.so:vendor/lib64/libfpnav.so
+lib64/libfpservice.so:vendor/lib64/libfpservice.so
 
 # Fingerprint firmware - FPC
 etc/firmware/fpctzappfingerprint.b00
@@ -1044,19 +1044,19 @@ etc/firmware/a530v3_seq.fw2
 
 # IFAA
 -framework/ifaa_fw.jar
-bin/ifaad
-lib/libifaa_daemon.so
-lib/libifaa_jni.so
-lib/libteeclientjni.so
-lib64/lib_ifaa_tac.so
-lib64/libifaa_daemon.so
-lib64/libifaa_jni.so
+bin/ifaad:vendor/bin/ifaad
+lib/libifaa_daemon.so:vendor/lib/libifaa_daemon.so
+lib/libifaa_jni.so:vendor/lib/libifaa_jni.so
+lib/libteeclientjni.so:vendor/lib/libteeclientjni.so
+lib64/lib_ifaa_tac.so:vendor/lib64/lib_ifaa_tac.so
+lib64/libifaa_daemon.so:vendor/lib64/libifaa_daemon.so
+lib64/libifaa_jni.so:vendor/lib64/libifaa_jni.so
 
 # NFC firmware
 vendor/firmware/libpn548ad_fw.so
 
 # Sensors
-etc/sensors/hals.conf
+etc/sensors/hals.conf:vendor/etc/sensors/hals.conf
 
 # Wi-Fi
-etc/firmware/wlan/qca_cld/WCNSS_cfg.dat
+etc/firmware/wlan/qca_cld/WCNSS_cfg.dat:vendor/firmware/wlan/qca_cld/WCNSS_cfg.dat
