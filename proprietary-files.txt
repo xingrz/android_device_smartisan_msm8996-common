@@ -134,9 +134,6 @@ vendor/lib/libmmqjpegdma.so
 vendor/lib/libois_bu63165_liteon.so
 vendor/lib/libois_bu63165_sharp.so
 vendor/lib/libois_lc898122.so
-vendor/lib/libqomx_jpegdec.so
-vendor/lib/libqomx_jpegenc.so
-vendor/lib/libqomx_jpegenc_pipe.so
 vendor/lib/libtof_vl53l0.so
 
 # Camera ISP
