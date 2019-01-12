@@ -19,7 +19,11 @@
 #include <hardware/hw_auth_token.h>
 
 #include <hardware/hardware.h>
+#ifdef SMARTISAN_HACK
+#include "fingerprint.h"
+#else
 #include <hardware/fingerprint.h>
+#endif
 #include "BiometricsFingerprint.h"
 
 #include <inttypes.h>
@@ -275,6 +279,10 @@ fingerprint_device_t* BiometricsFingerprint::openHal() {
         ALOGE("Can't register fingerprint module callback, error: %d", err);
         return nullptr;
     }
+
+#ifdef SMARTISAN_HACK
+    fp_device->mode_switch(fp_device, 102, 1, 0);
+#endif
 
     return fp_device;
 }
