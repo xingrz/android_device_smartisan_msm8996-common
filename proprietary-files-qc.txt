@@ -287,7 +287,7 @@ framework/com.qti.location.sdk.jar|f2e9f1d49201e1bad83008445fdafe9541e9b2bd
 framework/izat.xt.srv.jar|e10f1baf6ae0f70c4a529e5711559cebbc3644c9
 lib64/liblocationservice_jni.so|83c73c816048b0c564d28d1823a319878f00e781
 lib64/libxt_native.so|e4f2c1813d08ff7452dcba59fa1e23deea2494e4
-lib64/vendor.qti.gnss@1.0.so|716a812a9f4cdb45c57eb0a6fabb17624a91d553
+lib64/vendor.qti.gnss@1.0.so|392c70592a5759063ee9e09ebcb637bff04aa4fd
 vendor/bin/hw/vendor.qti.gnss@1.0-service|bdf23fe2af07c2afb74721023431446104fd828d
 vendor/bin/loc_launcher|b8f9d24d78cc08b8563112e216cfc96a969b7bb5
 vendor/bin/lowi-server|a453087410856d31f944b2e9f23c9c2b2368e412
@@ -319,7 +319,7 @@ vendor/lib64/libquipc_os_api.so|ec2826a8e108ea094589f95d273cd8edf7abb5b5
 vendor/lib64/libulp2.so|1a92023fbe40d5042239f3efbdcd82f3299e8b17
 vendor/lib64/libxtadapter.so|9a8fbd106994aaaf380be883fa2ef37d04e20401
 vendor/lib64/libxtwifi_ulp_adaptor.so|81b2083a5b2ca2931811a1b8507f50b8f5fa8e55
-vendor/lib64/vendor.qti.gnss@1.0_vendor.so|249c76153f8de014bf2dd2ab623ee3d87741fbc8
+vendor/lib64/vendor.qti.gnss@1.0_vendor.so|f7e9ee8e3804887a2f3939128e860767e6f27258
 
 # Graphics - from bardock-pro - OPM1.171019.026
 vendor/lib/egl/eglSubDriverAndroid.so|df793571f098118d17791ba41ef6665622537420
