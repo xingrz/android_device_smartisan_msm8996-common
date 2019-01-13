@@ -144,11 +144,6 @@ PRODUCT_PACKAGES += \
     AntHalService \
     com.dsi.ant.antradio_library
 
-# Bluetooth
-PRODUCT_PACKAGES += \
-    libbt-vendor \
-    libbthost_if
-
 # Camera
 PRODUCT_PACKAGES += \
     libshim_camera \

@@ -230,3 +230,7 @@ config.cabl.path=/system/etc/CablConfig.xml
 
 #Configure hvdcp allow to opti
 persist.hvdcp.allow_opti=1
+
+# Bluetooth
+qcom.bluetooth.soc=rome
+vendor.qcom.bluetooth.soc=rome
