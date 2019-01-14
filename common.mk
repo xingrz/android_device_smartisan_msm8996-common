@@ -242,6 +242,10 @@ PRODUCT_PACKAGES += \
     android.hidl.manager@1.0 \
     android.hidl.manager@1.0-java
 
+# Input
+PRODUCT_PACKAGES += \
+    KeyHandlerSmartisan
+
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \
