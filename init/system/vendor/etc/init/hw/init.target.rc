@@ -121,6 +121,17 @@ on boot
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
 
+    # Keypad
+    chown system system /proc/keypad/left_down
+    chown system system /proc/keypad/left_up
+    chown system system /proc/keypad/right_down
+    chown system system /proc/keypad/right_up
+    chown system system /proc/keypad/nav_middle
+
+    # Key Disabler
+    chown system system /sys/devices/soc/soc:goodix_fp/key_disabled
+    chown system system /sys/devices/soc/soc:fpc1020/key_disabled
+
 #start camera server as daemon
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class late_start

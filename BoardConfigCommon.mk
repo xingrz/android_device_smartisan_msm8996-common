@@ -132,8 +132,7 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 WITH_MOKEE_CHARGER := false
 
 # MK Hardware
-BOARD_HARDWARE_CLASS += hardware/mokee/mkhw
-BOARD_USES_MOKEE_HARDWARE := true
+JAVA_SOURCE_OVERLAYS += org.mokee.hardware|$(COMMON_PATH)/mkhw|**/*.java
 
 # CNE and DPM
 BOARD_USES_QCNE := true
