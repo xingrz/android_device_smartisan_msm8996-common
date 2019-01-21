@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2012, 2014-2017, The Linux Foundation. All rights reserved.
+# Copyright (c) 2009-2012, 2014-2018, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -38,10 +38,6 @@ on early-init
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 root system
-
-    # Support legacy paths
-    symlink /sdcard /mnt/sdcard
-    symlink /sdcard /storage/sdcard0
 
     # Create cgroup mount point for memory
     mkdir /sys/fs/cgroup/memory/bg 0750 root system
@@ -1110,16 +1106,12 @@ service poweroffhandler /vendor/bin/poweroffhandler
     disabled
     oneshot
 
+#Mixed HWC versions among targets
 on property:init.svc.surfaceflinger=restarting
-    stop hwcomposer-2-1
-    start hwcomposer-2-1
-
-# Logcat dump daemon, dumps logs to logdump partition
-#service logdumpd /system/bin/logcat -b all -v threadtime -D -w /dev/block/bootdevice/by-name/logdump
-#    class core
-#    writepid /dev/cpuset/system-background/tasks
-#    seclabel u:r:logdumpd:s0
-#    disabled
+    stop  vendor.hwcomposer-2-1
+    stop  vendor.hwcomposer-2-2
+    start vendor.hwcomposer-2-1
+    start vendor.hwcomposer-2-2
 
 # Logdumpd is enabled only for userdebug non-perf build
 #on property:ro.logdumpd.enabled=1
