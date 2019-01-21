@@ -102,7 +102,7 @@ $(WCNSS_INI_SYMLINK): $(LOCAL_INSTALLED_MODULE)
 	@echo "WCNSS config ini link: $@"
 	@mkdir -p $(dir $@)
 	@rm -f $@
-	$(hide) ln -sf /system/etc/wifi/$(notdir $@) $@
+	$(hide) ln -sf /vendor/etc/wifi/$(notdir $@) $@
 
 WCNSS_MAC_BINS := wlan_mac.bin wlan_random_mac.bin
 WCNSS_MAC_SYMLINK := $(addprefix $(TARGET_OUT_VENDOR)/firmware/wlan/qca_cld/,$(notdir $(WCNSS_MAC_BINS)))
