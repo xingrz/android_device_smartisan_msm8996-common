@@ -904,7 +904,6 @@ int QCamera3HardwareInterface::initialize(
 
 err1:
     pthread_mutex_unlock(&mMutex);
-err2:
     return rc;
 }
 
