@@ -32,7 +32,9 @@
 
 // System dependencies
 #include <string.h>
+#ifndef XINGRZ
 #include <media/msmb_isp.h>
+#endif
 
 // Camera dependencies
 #include "cam_types.h"
