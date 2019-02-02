@@ -6138,6 +6138,8 @@ int QCamera3HardwareInterface::initCapabilities(uint32_t cameraId)
     mm_camera_vtbl_t *cameraHandle = NULL;
     QCamera3HeapMemory *capabilityHeap = NULL;
 
+    LOGE("XiNGRZ sizeof(cam_capability_t) BLOG: 20320, OSS: %lu", sizeof(cam_capability_t));
+
     rc = camera_open((uint8_t)cameraId, &cameraHandle);
     if (rc) {
         LOGE("camera_open failed. rc = %d", rc);
