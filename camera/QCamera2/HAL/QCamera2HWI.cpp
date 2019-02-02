@@ -2306,6 +2306,8 @@ int QCamera2HardwareInterface::initCapabilities(uint32_t cameraId,
     int rc = NO_ERROR;
     QCameraHeapMemory *capabilityHeap = NULL;
 
+    LOGE("XiNGRZ sizeof(cam_capability_t) BLOG: 20320, OSS: %lu", sizeof(cam_capability_t));
+
     /* Allocate memory for capability buffer */
     capabilityHeap = new QCameraHeapMemory(QCAMERA_ION_USE_CACHE);
     rc = capabilityHeap->allocate(1, sizeof(cam_capability_t), NON_SECURE);

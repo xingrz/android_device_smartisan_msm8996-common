@@ -5176,6 +5176,10 @@ int32_t QCameraParameters::initDefaultParameters()
     int32_t hal_version = CAM_HAL_V1;
     ADD_SET_PARAM_ENTRY_TO_BATCH(m_pParamBuf, CAM_INTF_PARM_HAL_VERSION, hal_version);
 
+    FILE *dump = fopen("/data/vendor/camera/capability", "wb");
+    fwrite(m_pCapability, 20320, 1, dump);
+    fclose(dump);
+
     /*************************Initialize Values******************************/
     // Set read only parameters from camera capability
     set(KEY_SMOOTH_ZOOM_SUPPORTED,
