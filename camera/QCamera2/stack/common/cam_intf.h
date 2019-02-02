@@ -264,6 +264,8 @@ typedef struct{
     float hor_view_angle;                                   /* horizontal view angle */
     float ver_view_angle;                                   /* vertical view angle */
 
+    volatile char smartisan_reversed1[4];
+
     size_t preview_sizes_tbl_cnt;                           /* preview sizes table size */
     cam_dimension_t preview_sizes_tbl[MAX_SIZES_CNT];       /* preiew sizes table */
 
@@ -449,6 +451,9 @@ typedef struct{
     uint8_t flash_available;
 
     cam_rational_type_t base_gain_factor;    /* sensor base gain factor */
+
+    volatile char smartisan_reversed2[4];
+
     /* AF Bracketing info */
     cam_af_bracketing_t  ubifocus_af_bracketing_need;
     cam_af_bracketing_t  refocus_af_bracketing_need;
@@ -544,6 +549,8 @@ typedef struct{
 
     /* Dual cam calibration data */
     cam_related_system_calibration_data_t related_cam_calibration;
+
+    volatile char smartisan_reversed3[4];
 } cam_capability_t;
 
 typedef enum {
