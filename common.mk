@@ -377,8 +377,7 @@ PRODUCT_PACKAGES += \
 
 # USB
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.0-service \
-    com.android.future.usb.accessory
+    android.hardware.usb@1.0-service.basic
 
 # Vendor seccomp policy files for media components:
 PRODUCT_COPY_FILES += \
