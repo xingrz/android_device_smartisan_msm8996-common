@@ -259,6 +259,8 @@ use.voice.path.for.pcm.voip=true
 # Bluetooth
 qcom.bluetooth.soc=rome
 vendor.qcom.bluetooth.soc=rome
+ro.bluetooth.wipower=false
+ro.bluetooth.emb_wp_mode=false
 
 # Camera
 persist.camera.HAL3.enabled=1
