@@ -234,3 +234,6 @@ persist.hvdcp.allow_opti=1
 # Bluetooth
 qcom.bluetooth.soc=rome
 vendor.qcom.bluetooth.soc=rome
+
+# Camera
+persist.camera.HAL3.enabled=1
