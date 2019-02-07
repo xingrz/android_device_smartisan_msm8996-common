@@ -185,6 +185,8 @@ debug.enable.gamed=0
 persist.vendor.camera.display.umax=1920x1080
 persist.vendor.camera.display.lmax=1280x720
 
+persist.camera.HAL3.enabled=1
+
 #Disable face beautification
 persist.ts.postmakeup=false
 persist.ts.rtmakeup=false
