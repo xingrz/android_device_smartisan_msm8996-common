@@ -53,7 +53,7 @@
 #define CEILING4(X)  (((X) + 0x0003) & 0xFFFC)
 #define CEILING2(X)  (((X) + 0x0001) & 0xFFFE)
 
-#define MAX_ZOOMS_CNT 62
+#define MAX_ZOOMS_CNT 91
 #define MAX_SIZES_CNT 40
 #define MAX_EXP_BRACKETING_LENGTH 32
 #define MAX_ROI 10
@@ -1347,7 +1347,6 @@ typedef struct {
     cam_focus_mode_type focus_mode;        /* focus mode from backend */
     int32_t focus_pos;
     cam_af_flush_info_t flush_info;
-    uint8_t smartisan_reversed;
 } cam_auto_focus_data_t;
 
 typedef struct {
@@ -1455,7 +1454,6 @@ typedef struct {
     int32_t          sensing_method;
     float            crop_factor;
     cam_sensor_t sens_type;
-    volatile char smartisan_reversed[40];
 } cam_sensor_params_t;
 
 typedef enum {
@@ -1818,7 +1816,6 @@ typedef enum {
     CAM_INTF_META_FACE_DETECTION,
     /* Whether optical image stabilization is enabled. */
     CAM_INTF_META_LENS_OPT_STAB_MODE,
-    SMARTISAN_01,
     /* specific to HAl1 */
     CAM_INTF_META_AUTOFOCUS_DATA,
     CAM_INTF_PARM_QUERY_FLASH4SNAP, /* 20 */
@@ -1947,7 +1944,6 @@ typedef enum {
     CAM_INTF_META_AF_TRIGGER,
     /* Current state of AF algorithm */
     CAM_INTF_META_AF_STATE,
-    SMARTISAN_02,
     /* List of areas to use for illuminant estimation */
     CAM_INTF_META_AWB_REGIONS,
     /* Current state of AWB algorithm */
@@ -2166,12 +2162,6 @@ typedef enum {
     CAM_INTF_META_ISP_SENSITIVITY,
     /* Param for enabling instant aec*/
     CAM_INTF_PARM_INSTANT_AEC,
-    SMARTISAN_03,
-    SMARTISAN_04,
-    SMARTISAN_05,
-    SMARTISAN_06,
-    SMARTISAN_07,
-    SMARTISAN_08,
     /* Param for tracking previous reprocessing activity */
     CAM_INTF_META_REPROCESS_FLAGS,
     /* Param of cropping information for JPEG encoder */
