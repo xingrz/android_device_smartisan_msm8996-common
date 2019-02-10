@@ -5180,6 +5180,238 @@ int32_t QCameraParameters::initDefaultParameters()
     fwrite(m_pCapability, 20320, 1, dump);
     fclose(dump);
 
+    LOGE("XiNGRZ --------");
+    LOGE("XiNGRZ sizeof(cam_capability_t) BLOG: 20320, OSS: %lu", sizeof(cam_capability_t));
+
+    cam_capability_t *cap = m_pCapability;
+
+    LOGE("XiNGRZ [%lu] version: %d", sizeof(cap->version), cap->version);
+    LOGE("XiNGRZ [%lu] position: %d", sizeof(cap->position), cap->position);
+    LOGE("XiNGRZ [%lu] auto_hdr_supported: %d", sizeof(cap->auto_hdr_supported), cap->auto_hdr_supported);
+    LOGE("XiNGRZ [%lu] isWnrSupported: %d", sizeof(cap->isWnrSupported), cap->isWnrSupported);
+    LOGE("XiNGRZ [%lu] supported_iso_modes_cnt: %zu", sizeof(cap->supported_iso_modes_cnt), cap->supported_iso_modes_cnt);
+    for (size_t i = 0; i < cap->supported_iso_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_iso_modes: [%d] %d", i, cap->supported_iso_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_flash_modes_cnt: %zu", sizeof(cap->supported_flash_modes_cnt), cap->supported_flash_modes_cnt);
+    for (size_t i = 0; i < cap->supported_flash_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_flash_modes: [%d] %d", i, cap->supported_flash_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] zoom_ratio_tbl_cnt: %zu", sizeof(cap->zoom_ratio_tbl_cnt), cap->zoom_ratio_tbl_cnt);
+    for (size_t i = 0; i < cap->zoom_ratio_tbl_cnt; i++) {
+        LOGE("XiNGRZ - zoom_ratio_tbl: [%d] %d", i, cap->zoom_ratio_tbl[i]);
+    }
+
+    LOGE("XiNGRZ [%lu] supported_effects_cnt: %zu", sizeof(cap->supported_effects_cnt), cap->supported_effects_cnt);
+    for (size_t i = 0; i < cap->supported_effects_cnt; i++) {
+        LOGE("XiNGRZ - supported_effects: [%d] %d", i, cap->supported_effects[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_scene_modes_cnt: %zu", sizeof(cap->supported_scene_modes_cnt), cap->supported_scene_modes_cnt);
+    for (size_t i = 0; i < cap->supported_scene_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_scene_modes: [%d] %d", i, cap->supported_scene_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_aec_modes_cnt: %zu", sizeof(cap->supported_aec_modes_cnt), cap->supported_aec_modes_cnt);
+    for (size_t i = 0; i < cap->supported_aec_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_aec_modes: [%d] %d", i, cap->supported_aec_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] fps_ranges_tbl_cnt: %zu", sizeof(cap->fps_ranges_tbl_cnt), cap->fps_ranges_tbl_cnt);
+    for (size_t i = 0; i < cap->fps_ranges_tbl_cnt; i++) {
+        LOGE("XiNGRZ - fps_ranges_tbl: [%d] min_fps: %f, max_fps: %f, video_min_fps: %f, video_max_fps: %f", i,
+            cap->fps_ranges_tbl[i].min_fps, cap->fps_ranges_tbl[i].max_fps,
+            cap->fps_ranges_tbl[i].video_min_fps, cap->fps_ranges_tbl[i].video_max_fps);
+    }
+    LOGE("XiNGRZ[%lu] supported_antibandings_cnt: %zu", sizeof(cap->supported_antibandings_cnt), cap->supported_antibandings_cnt);
+    for (size_t i = 0; i < cap->supported_antibandings_cnt; i++) {
+        LOGE("XiNGRZ - supported_antibandings: [%d] %d", i, cap->supported_antibandings[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_white_balances_cnt: %zu", sizeof(cap->supported_white_balances_cnt), cap->supported_white_balances_cnt);
+    for (size_t i = 0; i < cap->supported_white_balances_cnt; i++) {
+        LOGE("XiNGRZ - supported_white_balances: [%d] %d", i, cap->supported_white_balances[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_sensor_hdr_types_cnt: %zu", sizeof(cap->supported_sensor_hdr_types_cnt), cap->supported_sensor_hdr_types_cnt);
+    for (size_t i = 0; i < cap->supported_sensor_hdr_types_cnt; i++) {
+        LOGE("XiNGRZ - supported_sensor_hdr_types: [%d] %d", i, cap->supported_sensor_hdr_types[i]);
+    }
+    LOGE("XiNGRZ [%lu] min_wb_cct: %d", sizeof(cap->min_wb_cct), cap->min_wb_cct);
+    LOGE("XiNGRZ [%lu] max_wb_cct: %d", sizeof(cap->max_wb_cct), cap->max_wb_cct);
+    LOGE("XiNGRZ [%lu] min_wb_gain: %f", sizeof(cap->min_wb_gain), cap->min_wb_gain);
+    LOGE("XiNGRZ [%lu] max_wb_gain: %f", sizeof(cap->max_wb_gain), cap->max_wb_gain);
+    LOGE("XiNGRZ [%lu] supported_focus_modes_cnt: %zu", sizeof(cap->supported_focus_modes_cnt), cap->supported_focus_modes_cnt);
+    for (size_t i = 0; i < cap->supported_focus_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_focus_modes: [%d] %d", i, cap->supported_focus_modes[i]);
+    }
+    for (size_t i = 0; i < sizeof(cap->min_focus_pos) / sizeof(float); i++) {
+        LOGE("XiNGRZ - min_focus_pos: [%d] %f", i, cap->min_focus_pos[i]);
+    }
+    for (size_t i = 0; i < sizeof(cap->max_focus_pos) / sizeof(float); i++) {
+        LOGE("XiNGRZ - max_focus_pos: [%d] %f", i, cap->max_focus_pos[i]);
+    }
+    LOGE("XiNGRZ [%lu] exposure_compensation_min: %d", sizeof(cap->exposure_compensation_min), cap->exposure_compensation_min);
+    LOGE("XiNGRZ [%lu] exposure_compensation_max: %d", sizeof(cap->exposure_compensation_max), cap->exposure_compensation_max);
+    LOGE("XiNGRZ [%lu] exposure_compensation_default: %d", sizeof(cap->exposure_compensation_default), cap->exposure_compensation_default);
+    LOGE("XiNGRZ [%lu] exposure_compensation_step: %f", sizeof(cap->exposure_compensation_step), cap->exposure_compensation_step);
+    LOGE("XiNGRZ [%lu] exp_compensation_step:", sizeof(cap->exp_compensation_step));
+    LOGE("XiNGRZ - numerator: %d", cap->exp_compensation_step.numerator);
+    LOGE("XiNGRZ - denominator: %d", cap->exp_compensation_step.denominator);
+    LOGE("XiNGRZ [%lu] video_stablization_supported: %d", sizeof(cap->video_stablization_supported), cap->video_stablization_supported);
+    LOGE("XiNGRZ [%lu] picture_sizes_tbl_cnt: %zu", sizeof(cap->picture_sizes_tbl_cnt), cap->picture_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->picture_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - picture_sizes_tbl: [%d] %d x %d", i, cap->picture_sizes_tbl[i].width, cap->picture_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] modes_supported: %d", sizeof(cap->modes_supported), cap->modes_supported);
+    LOGE("XiNGRZ [%lu] sensor_mount_angle: %d", sizeof(cap->sensor_mount_angle), cap->sensor_mount_angle);
+    LOGE("XiNGRZ [%lu] focal_length: %f", sizeof(cap->focal_length), cap->focal_length);
+    LOGE("XiNGRZ [%lu] hor_view_angle: %f", sizeof(cap->hor_view_angle), cap->hor_view_angle);
+    LOGE("XiNGRZ [%lu] ver_view_angle: %f", sizeof(cap->ver_view_angle), cap->ver_view_angle);
+    LOGE("XiNGRZ [%lu] preview_sizes_tbl_cnt: %zu", sizeof(cap->preview_sizes_tbl_cnt), cap->preview_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->preview_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - preview_sizes_tbl: [%d] %d x %d", i, cap->preview_sizes_tbl[i].width, cap->preview_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] video_sizes_tbl_cnt: %zu", sizeof(cap->video_sizes_tbl_cnt), cap->video_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->video_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - video_sizes_tbl: [%d] %d x %d", i, cap->video_sizes_tbl[i].width, cap->video_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] livesnapshot_sizes_tbl_cnt: %zu", sizeof(cap->livesnapshot_sizes_tbl_cnt), cap->livesnapshot_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->livesnapshot_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - livesnapshot_sizes_tbl: [%d] %d x %d", i, cap->livesnapshot_sizes_tbl[i].width, cap->livesnapshot_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] vhdr_livesnapshot_sizes_tbl_cnt: %zu", sizeof(cap->vhdr_livesnapshot_sizes_tbl_cnt), cap->vhdr_livesnapshot_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->vhdr_livesnapshot_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - vhdr_livesnapshot_sizes_tbl: [%d] %d x %d", i, cap->vhdr_livesnapshot_sizes_tbl[i].width, cap->vhdr_livesnapshot_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] hfr_tbl_cnt: %zu", sizeof(cap->hfr_tbl_cnt), cap->hfr_tbl_cnt);
+    for (size_t i = 0; i < cap->hfr_tbl_cnt; i++) {
+        LOGE("XiNGRZ - hfr_tbl: [%d] mode: %d", i, cap->hfr_tbl[i].mode);
+    }
+    LOGE("XiNGRZ [%lu] zzhdr_sizes_tbl_cnt: %zu", sizeof(cap->zzhdr_sizes_tbl_cnt), cap->zzhdr_sizes_tbl_cnt);
+    for (size_t i = 0; i < cap->zzhdr_sizes_tbl_cnt; i++) {
+        LOGE("XiNGRZ - zzhdr_sizes_tbl: [%d] %d x %d", i, cap->zzhdr_sizes_tbl[i].width, cap->zzhdr_sizes_tbl[i].height);
+    }
+    LOGE("XiNGRZ [%lu] supported_preview_fmt_cnt: %zu", sizeof(cap->supported_preview_fmt_cnt), cap->supported_preview_fmt_cnt);
+    for (size_t i = 0; i < cap->supported_preview_fmt_cnt; i++) {
+        LOGE("XiNGRZ - supported_preview_fmts: [%d] %d", i, cap->supported_preview_fmts[i]);
+    }
+    LOGE("XiNGRZ [%lu] supported_picture_fmt_cnt: %zu", sizeof(cap->supported_picture_fmt_cnt), cap->supported_picture_fmt_cnt);
+    for (size_t i = 0; i < cap->supported_picture_fmt_cnt; i++) {
+        LOGE("XiNGRZ - supported_picture_fmts: [%d] %d", i, cap->supported_picture_fmts[i]);
+    }
+    LOGE("XiNGRZ [%lu] max_downscale_factor: %d", sizeof(cap->max_downscale_factor), cap->max_downscale_factor);
+    LOGE("XiNGRZ [%lu] supported_raw_dim_cnt: %zu", sizeof(cap->supported_raw_dim_cnt), cap->supported_raw_dim_cnt);
+    for (size_t i = 0; i < cap->supported_raw_dim_cnt; i++) {
+        LOGE("XiNGRZ - raw_dim: [%d] %d x %d", i, cap->raw_dim[i].width, cap->raw_dim[i].height);
+    }
+    LOGE("XiNGRZ [%lu] supported_raw_fmt_cnt: %zu", sizeof(cap->supported_raw_fmt_cnt), cap->supported_raw_fmt_cnt);
+    for (size_t i = 0; i < cap->supported_raw_fmt_cnt; i++) {
+        LOGE("XiNGRZ - supported_raw_fmts: [%d] %d", i, cap->supported_raw_fmts[i]);
+    }
+    LOGE("XiNGRZ [%lu] auto_wb_lock_supported: %d", sizeof(cap->auto_wb_lock_supported), cap->auto_wb_lock_supported);
+    LOGE("XiNGRZ [%lu] zoom_supported: %d", sizeof(cap->zoom_supported), cap->zoom_supported);
+    LOGE("XiNGRZ [%lu] smooth_zoom_supported: %d", sizeof(cap->smooth_zoom_supported), cap->smooth_zoom_supported);
+    LOGE("XiNGRZ [%lu] auto_exposure_lock_supported: %d", sizeof(cap->auto_exposure_lock_supported), cap->auto_exposure_lock_supported);
+    LOGE("XiNGRZ [%lu] video_snapshot_supported: %d", sizeof(cap->video_snapshot_supported), cap->video_snapshot_supported);
+    LOGE("XiNGRZ [%lu] max_num_roi: %d", sizeof(cap->max_num_roi), cap->max_num_roi);
+    LOGE("XiNGRZ [%lu] max_num_focus_areas: %d", sizeof(cap->max_num_focus_areas), cap->max_num_focus_areas);
+    LOGE("XiNGRZ [%lu] max_num_metering_areas: %d", sizeof(cap->max_num_metering_areas), cap->max_num_metering_areas);
+    LOGE("XiNGRZ [%lu] max_zoom_step: %d", sizeof(cap->max_zoom_step), cap->max_zoom_step);
+    LOGE("XiNGRZ [%lu] brightness_ctrl:", sizeof(cap->brightness_ctrl));
+    LOGE("XiNGRZ   min_value: %lu", sizeof(cap->brightness_ctrl.min_value));
+    LOGE("XiNGRZ   max_value: %lu", sizeof(cap->brightness_ctrl.max_value));
+    LOGE("XiNGRZ   def_value: %lu", sizeof(cap->brightness_ctrl.def_value));
+    LOGE("XiNGRZ   step: %lu", sizeof(cap->brightness_ctrl.step));
+    LOGE("XiNGRZ [%lu] sharpness_ctrl:", sizeof(cap->sharpness_ctrl));
+    LOGE("XiNGRZ   min_value: %lu", sizeof(cap->sharpness_ctrl.min_value));
+    LOGE("XiNGRZ   max_value: %lu", sizeof(cap->sharpness_ctrl.max_value));
+    LOGE("XiNGRZ   def_value: %lu", sizeof(cap->sharpness_ctrl.def_value));
+    LOGE("XiNGRZ   step: %lu", sizeof(cap->sharpness_ctrl.step));
+    LOGE("XiNGRZ [%lu] contrast_ctrl:", sizeof(cap->contrast_ctrl));
+    LOGE("XiNGRZ   min_value: %lu", sizeof(cap->contrast_ctrl.min_value));
+    LOGE("XiNGRZ   max_value: %lu", sizeof(cap->contrast_ctrl.max_value));
+    LOGE("XiNGRZ   def_value: %lu", sizeof(cap->contrast_ctrl.def_value));
+    LOGE("XiNGRZ   step: %lu", sizeof(cap->contrast_ctrl.step));
+    LOGE("XiNGRZ [%lu] saturation_ctrl:", sizeof(cap->saturation_ctrl));
+    LOGE("XiNGRZ   min_value: %lu", sizeof(cap->saturation_ctrl.min_value));
+    LOGE("XiNGRZ   max_value: %lu", sizeof(cap->saturation_ctrl.max_value));
+    LOGE("XiNGRZ   def_value: %lu", sizeof(cap->saturation_ctrl.def_value));
+    LOGE("XiNGRZ   step: %lu", sizeof(cap->saturation_ctrl.step));
+    LOGE("XiNGRZ [%lu] sce_ctrl:", sizeof(cap->sce_ctrl));
+    LOGE("XiNGRZ   min_value: %lu", sizeof(cap->sce_ctrl.min_value));
+    LOGE("XiNGRZ   max_value: %lu", sizeof(cap->sce_ctrl.max_value));
+    LOGE("XiNGRZ   def_value: %lu", sizeof(cap->sce_ctrl.def_value));
+    LOGE("XiNGRZ   step: %lu", sizeof(cap->sce_ctrl.step));
+    LOGE("XiNGRZ [%lu] qcom_supported_feature_mask: %08x", sizeof(cap->qcom_supported_feature_mask), cap->qcom_supported_feature_mask);
+    LOGE("XiNGRZ [%lu] padding_info:", sizeof(cap->padding_info));
+    LOGE("XiNGRZ   width_padding: %d", sizeof(cap->padding_info.width_padding));
+    LOGE("XiNGRZ   height_padding: %d", sizeof(cap->padding_info.height_padding));
+    LOGE("XiNGRZ   plane_padding: %d", sizeof(cap->padding_info.plane_padding));
+    LOGE("XiNGRZ   min_stride: %d", sizeof(cap->padding_info.min_stride));
+    LOGE("XiNGRZ   min_scanline: %d", sizeof(cap->padding_info.min_scanline));
+    LOGE("XiNGRZ   offset_x: %d", sizeof(cap->padding_info.offset_info.offset_x));
+    LOGE("XiNGRZ   offset_y: %d", sizeof(cap->padding_info.offset_info.offset_y));
+    LOGE("XiNGRZ [%lu] min_num_pp_bufs: %d", sizeof(cap->min_num_pp_bufs), cap->min_num_pp_bufs);
+    LOGE("XiNGRZ [%lu] rdi_mode_stream_fmt: %d", sizeof(cap->rdi_mode_stream_fmt), cap->rdi_mode_stream_fmt);
+    LOGE("XiNGRZ [%lu] min_focus_distance: %f", sizeof(cap->min_focus_distance), cap->min_focus_distance);
+    LOGE("XiNGRZ [%lu] hyper_focal_distance: %f", sizeof(cap->hyper_focal_distance), cap->hyper_focal_distance);
+    for (int i = 0; i < cap->focal_lengths_count; i++) {
+        LOGE("XiNGRZ - focal_lengths: [%d] %f", i, cap->focal_lengths[i]);
+    }
+    LOGE("XiNGRZ [%lu] focal_lengths_count: %zu", sizeof(cap->focal_lengths_count), cap->focal_lengths_count);
+    for (int i = 0; i < cap->apertures_count; i++) {
+        LOGE("XiNGRZ - apertures: [%d] %f", i, cap->apertures[i]);
+    }
+    LOGE("XiNGRZ [%lu] apertures_count: %zu", sizeof(cap->apertures_count), cap->apertures_count);
+    for (int i = 0; i < cap->filter_densities_count; i++) {
+        LOGE("XiNGRZ - filter_densities: [%d] %f", i, cap->filter_densities[i]);
+    }
+    LOGE("XiNGRZ [%lu] filter_densities_count: %zu", sizeof(cap->filter_densities_count), cap->filter_densities_count);
+    for (int i = 0; i < cap->optical_stab_modes_count; i++) {
+        LOGE("XiNGRZ - optical_stab_modes: [%d] %f", i, cap->optical_stab_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] optical_stab_modes_count: %zu", sizeof(cap->optical_stab_modes_count), cap->optical_stab_modes_count);
+    LOGE("XiNGRZ [%lu] lens_shading_map_size: %d x %d", sizeof(cap->lens_shading_map_size), cap->lens_shading_map_size.width, cap->lens_shading_map_size.height);
+    LOGE("XiNGRZ [%lu] geo_correction_map_size: %d x %d", sizeof(cap->geo_correction_map_size), cap->geo_correction_map_size.width, cap->geo_correction_map_size.height);
+    LOGE("XiNGRZ [%lu] focus_dist_calibrated: %d", sizeof(cap->focus_dist_calibrated), cap->focus_dist_calibrated);
+    LOGE("XiNGRZ [%lu] supported_test_pattern_modes_cnt: %zu", sizeof(cap->supported_test_pattern_modes_cnt), cap->supported_test_pattern_modes_cnt);
+    for (size_t i = 0; i < cap->supported_test_pattern_modes_cnt; i++) {
+        LOGE("XiNGRZ - supported_test_pattern_modes: [%d] %d", i, cap->supported_test_pattern_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] reference_illuminant1: %d", sizeof(cap->reference_illuminant1), cap->reference_illuminant1);
+    LOGE("XiNGRZ [%lu] reference_illuminant2: %d", sizeof(cap->reference_illuminant2), cap->reference_illuminant2);
+    for (size_t i = 0; i < sizeof(cap->jpeg_stall_durations) / sizeof(int64_t); i++) {
+        LOGE("XiNGRZ - jpeg_stall_durations: [%d] %lu", i, cap->jpeg_stall_durations);
+    }
+    for (size_t i = 0; i < sizeof(cap->raw16_stall_durations) / sizeof(int64_t); i++) {
+        LOGE("XiNGRZ - raw16_stall_durations: [%d] %lu", i, cap->raw16_stall_durations);
+    }
+
+
+    LOGE("XiNGRZ [%lu] isCacSupported: %d", sizeof(cap->isCacSupported), cap->isCacSupported);
+    LOGE("XiNGRZ [%lu] opaque_raw_fmt: %d", sizeof(cap->opaque_raw_fmt), cap->opaque_raw_fmt);
+    LOGE("XiNGRZ [%lu] true_portrait_settings_need: %d", sizeof(cap->true_portrait_settings_need), cap->true_portrait_settings_need);
+
+
+    LOGE("XiNGRZ [%lu] sensor_type:", sizeof(cap->sensor_type));
+    LOGE("XiNGRZ - sens_type: %d", sizeof(cap->sensor_type.sens_type), cap->sensor_type.sens_type);
+    LOGE("XiNGRZ - native_format: %d", sizeof(cap->sensor_type.native_format), cap->sensor_type.native_format);
+
+    for (size_t i = 0; i < cap->aberration_modes_count; i++) {
+        LOGE("XiNGRZ - aberration_modes: [%d] %d", i, cap->aberration_modes[i]);
+    }
+    LOGE("XiNGRZ [%lu] aberration_modes_count: %d", sizeof(cap->aberration_modes_count), cap->aberration_modes_count);
+
+    LOGE("XiNGRZ [%lu] max_batch_bufs_supported: %d", sizeof(cap->max_batch_bufs_supported), cap->max_batch_bufs_supported);
+    LOGE("XiNGRZ [%lu] buf_alignment: %d", sizeof(cap->buf_alignment), cap->buf_alignment);
+    LOGE("XiNGRZ [%lu] min_stride: %d", sizeof(cap->min_stride), cap->min_stride);
+    LOGE("XiNGRZ [%lu] min_scanline: %d", sizeof(cap->min_scanline), cap->min_scanline);
+    LOGE("XiNGRZ [%lu] flash_dev_name: \"%s\"", sizeof(cap->flash_dev_name), cap->flash_dev_name);
+    LOGE("XiNGRZ [%lu] eeprom_version_info: \"%s\"", sizeof(cap->eeprom_version_info), cap->eeprom_version_info);
+    LOGE("XiNGRZ [%lu] max_pixel_bandwidth: %llu", sizeof(cap->max_pixel_bandwidth), cap->max_pixel_bandwidth);
+    LOGE("XiNGRZ [%lu] optical_black_region_count: %d", sizeof(cap->optical_black_region_count), cap->optical_black_region_count);
+    LOGE("XiNGRZ [%lu] hotPixel_mode: %d", sizeof(cap->hotPixel_mode), cap->hotPixel_mode);
+    LOGE("XiNGRZ [%lu] hotPixel_count: %d", sizeof(cap->hotPixel_count), cap->hotPixel_count);
+    LOGE("XiNGRZ [%lu] supported_instant_aec_modes_cnt: %zu", sizeof(cap->supported_instant_aec_modes_cnt), cap->supported_instant_aec_modes_cnt);
+
+    LOGE("XiNGRZ --------");
+
     /*************************Initialize Values******************************/
     // Set read only parameters from camera capability
     set(KEY_SMOOTH_ZOOM_SUPPORTED,
