@@ -227,7 +227,6 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor-minimal
 
 # Shims
-TARGET_LD_SHIM_LIBS += /vendor/lib/hw/camera.msm8996.so|/vendor/lib/libshim_camera.so
 TARGET_LD_SHIM_LIBS += /vendor/lib/libmmcamera_ppeiscore.so|/vendor/lib/libshim_camera.so
 
 # Timeservice
