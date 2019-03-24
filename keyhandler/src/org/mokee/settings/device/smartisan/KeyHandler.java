@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The MoKee Open Source Project
+ * Copyright (C) 2018-2019 The MoKee Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,18 +32,20 @@ import com.android.internal.os.DeviceKeyHandler;
 
 import mokee.providers.MKSettings;
 
+import org.mokee.internal.util.FileUtils;
+
 public class KeyHandler implements DeviceKeyHandler {
 
     private static final String TAG = "KeyHandler";
 
-    private static final int KEY_BACK = 158;
-    private static final int KEY_HOME = 172;
+    private static final int KEY_HOME_TOUCH_FPC = 0;
+    private static final int KEY_HOME_TOUCH_GOODIX = 1;
+    private static final int KEY_HOME_PRESS = 2;
 
-    private static final String TRUSTED_HOME_DEVICE_NAME = "qpnp_pon";
-
-    private static final String[] TRUSTED_BACK_DEVICE_NAMES = new String[] {
-        "uinput-fpc",
-        "gf3208",
+    private final KeyInfo[] keys = new KeyInfo[] {
+        new KeyInfo("home_touch", "uinput-fpc"),
+        new KeyInfo("home_touch", "gf3208"),
+        new KeyInfo("home_press", "qpnp_pon"),
     };
 
     private final int longPressTimeout = ViewConfiguration.getLongPressTimeout();
@@ -52,10 +54,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private Context context;
     private Vibrator vibrator;
 
-    private int trustedHomeDeviceId = 0;
-    private int trustedBackDeviceId = 0;
-
-    private long lastBackTapMillis = 0;
+    private long lastHomeTouchMillis = 0;
 
     private boolean ongoingPowerLongPress = false;
 
@@ -70,38 +69,26 @@ public class KeyHandler implements DeviceKeyHandler {
     }
 
     public KeyEvent handleKeyEvent(KeyEvent event) {
-        if (handleHomeKeyEvent(event) || handleBackKeyEvent(event)) {
-            return null;
-        } else {
-            return event;
-        }
+        boolean handled = false;
+        handled = handleHomeTouchKeyEvent(event) || handled;
+        handled = handleHomePressKeyEvent(event) || handled;
+        return handled ? null : event;
     }
 
-    private boolean handleHomeKeyEvent(KeyEvent event) {
-        if (trustedHomeDeviceId == 0) {
-            final String deviceName = getDeviceName(event);
-            if (TRUSTED_HOME_DEVICE_NAME.equals(deviceName)) {
-                trustedHomeDeviceId = event.getDeviceId();
-            } else {
-                return false;
-            }
-        } else {
-            if (trustedHomeDeviceId != event.getDeviceId()) {
-                return false;
-            }
-        }
+    private boolean handleHomePressKeyEvent(KeyEvent event) {
+        final KeyInfo keyHomePress = keys[KEY_HOME_PRESS];
 
-        if (event.getScanCode() != KEY_HOME) {
+        if (!keyHomePress.match(event)) {
             return false;
         }
 
         switch (event.getAction()) {
             case KeyEvent.ACTION_DOWN:
-                injectKey(KeyEvent.KEYCODE_HOME, KeyEvent.ACTION_DOWN, 0);
+                injectKey(keyHomePress.keyCode, KeyEvent.ACTION_DOWN, 0);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        injectKey(KeyEvent.KEYCODE_HOME, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                        injectKey(keyHomePress.keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
                         injectKey(KeyEvent.KEYCODE_POWER);
                         doHapticFeedback();
                     }
@@ -120,7 +107,7 @@ public class KeyHandler implements DeviceKeyHandler {
                     injectKey(KeyEvent.KEYCODE_POWER, KeyEvent.ACTION_UP, 0);
                     ongoingPowerLongPress = false;
                 } else {
-                    injectKey(KeyEvent.KEYCODE_HOME, KeyEvent.ACTION_UP, 0);
+                    injectKey(keyHomePress.keyCode, KeyEvent.ACTION_UP, 0);
                     handler.removeCallbacksAndMessages(null);
                 }
                 break;
@@ -129,39 +116,30 @@ public class KeyHandler implements DeviceKeyHandler {
         return true;
     }
 
-    private boolean handleBackKeyEvent(KeyEvent event) {
-        if (trustedBackDeviceId == 0) {
-            final String deviceName = getDeviceName(event);
-            for (String name : TRUSTED_BACK_DEVICE_NAMES) {
-                if (name.equals(deviceName)) {
-                    trustedBackDeviceId = event.getDeviceId();
-                    break;
-                }
-            }
-            return false;
-        } else {
-            if (trustedBackDeviceId != event.getDeviceId()) {
-                return false;
-            }
-        }
-
-        if (event.getScanCode() != KEY_BACK) {
-            return false;
-        }
-
+    private boolean handleHomeTouchKeyEvent(KeyEvent event) {
         // The sensor reports fake DOWN and UP per taps
         if (event.getAction() != KeyEvent.ACTION_UP) {
-            return true;
+            return false;
+        }
+
+        KeyInfo matchedKey;
+
+        if (keys[KEY_HOME_TOUCH_FPC].match(event)) {
+            matchedKey = keys[KEY_HOME_TOUCH_FPC];
+        } else if (keys[KEY_HOME_TOUCH_GOODIX].match(event)) {
+            matchedKey = keys[KEY_HOME_TOUCH_GOODIX];
+        } else {
+            return false;
         }
 
         final long now = SystemClock.uptimeMillis();
-        if (now - lastBackTapMillis < doubleTapTimeout) {
+        if (now - lastHomeTouchMillis < doubleTapTimeout) {
             injectKey(KeyEvent.KEYCODE_APP_SWITCH);
         } else {
-            injectKey(KeyEvent.KEYCODE_BACK);
+            injectKey(matchedKey.keyCode);
         }
 
-        lastBackTapMillis = now;
+        lastHomeTouchMillis = now;
 
         return true;
     }
@@ -197,6 +175,50 @@ public class KeyHandler implements DeviceKeyHandler {
         if (enabled) {
             vibrator.vibrate(50);
         }
+    }
+
+    private class KeyInfo {
+
+        final String deviceName;
+        final int scanCode;
+        int deviceId;
+        int keyCode;
+
+        KeyInfo(String file, String deviceName) {
+            int scanCode;
+            this.deviceName = deviceName;
+            try {
+                scanCode = Integer.parseInt(FileUtils.readOneLine(
+                        "/proc/keypad/" + file));
+            } catch (NumberFormatException ignored) {
+                scanCode = 0;
+            }
+            this.scanCode = scanCode;
+        }
+
+        boolean match(KeyEvent event) {
+            if (deviceId == 0) {
+                final String deviceName = getDeviceName(event);
+                if (this.deviceName.equals(deviceName)) {
+                    deviceId = event.getDeviceId();
+                } else {
+                    return false;
+                }
+            } else {
+                if (deviceId != event.getDeviceId()) {
+                    return false;
+                }
+            }
+
+            if (event.getScanCode() == scanCode) {
+                keyCode = event.getKeyCode();
+            } else {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 
 }
