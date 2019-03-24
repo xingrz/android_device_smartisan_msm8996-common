@@ -20,6 +20,7 @@ import android.content.Context;
 import android.hardware.input.InputManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.util.Log;
@@ -27,8 +28,10 @@ import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
 
 import com.android.internal.os.DeviceKeyHandler;
+import com.android.internal.util.ScreenshotHelper;
 
 import mokee.providers.MKSettings;
 
@@ -41,11 +44,19 @@ public class KeyHandler implements DeviceKeyHandler {
     private static final int KEY_HOME_TOUCH_FPC = 0;
     private static final int KEY_HOME_TOUCH_GOODIX = 1;
     private static final int KEY_HOME_PRESS = 2;
+    private static final int KEY_LEFT_UP = 3;
+    private static final int KEY_LEFT_DOWN = 4;
+    private static final int KEY_RIGHT_UP = 5;
+    private static final int KEY_RIGHT_DOWN = 6;
 
     private final KeyInfo[] keys = new KeyInfo[] {
         new KeyInfo("home_touch", "uinput-fpc"),
         new KeyInfo("home_touch", "gf3208"),
         new KeyInfo("home_press", "qpnp_pon"),
+        new KeyInfo("left_up", "gpio-keys"),
+        new KeyInfo("left_down", "gpio-keys"),
+        new KeyInfo("right_up", "qpnp_pon"),
+        new KeyInfo("right_down", "gpio-keys"),
     };
 
     private final int longPressTimeout = ViewConfiguration.getLongPressTimeout();
@@ -54,15 +65,35 @@ public class KeyHandler implements DeviceKeyHandler {
 
     private Context context;
     private Vibrator vibrator;
+    private PowerManager pm;
+    private ScreenshotHelper screenshotHelper;
 
     private long lastHomeTouchMillis = 0;
 
     private boolean ongoingPowerLongPress = false;
 
+    private int leftIndexPressed = -1;
+    private int rightIndexPressed = -1;
+
     private Handler handler = new Handler(Looper.getMainLooper());
+
+    private final Runnable triggerPartialScreenshot = new Runnable() {
+        @Override
+        public void run() {
+            if (leftIndexPressed != -1 && rightIndexPressed != -1) {
+                injectKey(keys[leftIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                injectKey(keys[rightIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                leftIndexPressed = -1;
+                rightIndexPressed = -1;
+                takeScreenshot(true);
+            }
+        }
+    };
 
     public KeyHandler(Context context) {
         this.context = context;
+        this.pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        this.screenshotHelper = new ScreenshotHelper(context);
         vibrator = context.getSystemService(Vibrator.class);
         if (vibrator == null || !vibrator.hasVibrator()) {
             vibrator = null;
@@ -73,6 +104,8 @@ public class KeyHandler implements DeviceKeyHandler {
         boolean handled = false;
         handled = handleHomeTouchKeyEvent(event) || handled;
         handled = handleHomePressKeyEvent(event) || handled;
+        handled = handleLeftKeyEvent(event) || handled;
+        handled = handleRightKeyEvent(event) || handled;
         return handled ? null : event;
     }
 
@@ -146,6 +179,98 @@ public class KeyHandler implements DeviceKeyHandler {
         return true;
     }
 
+    private boolean handleLeftKeyEvent(KeyEvent event) {
+        KeyInfo matchedKey;
+        int matchedKeyIndex;
+
+        if (keys[KEY_LEFT_UP].match(event)) {
+            matchedKey = keys[KEY_LEFT_UP];
+            matchedKeyIndex = KEY_LEFT_UP;
+        } else if (keys[KEY_LEFT_DOWN].match(event)) {
+            matchedKey = keys[KEY_LEFT_DOWN];
+            matchedKeyIndex = KEY_LEFT_DOWN;
+        } else {
+            return false;
+        }
+
+        if (leftIndexPressed != -1 && leftIndexPressed != matchedKeyIndex) {
+            injectKey(keys[leftIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+            leftIndexPressed = -1;
+        }
+
+        switch (event.getAction()) {
+            case KeyEvent.ACTION_DOWN:
+                if (rightIndexPressed != -1) {
+                    injectKey(keys[rightIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                    handler.postDelayed(triggerPartialScreenshot, "partial_screenshot", longPressTimeout);
+                } else {
+                    injectKey(matchedKey.keyCode, KeyEvent.ACTION_DOWN, 0);
+                }
+                if (pm.isInteractive()) {
+                    leftIndexPressed = matchedKeyIndex;
+                }
+                break;
+            case KeyEvent.ACTION_UP:
+                if (rightIndexPressed != -1) {
+                    takeScreenshot(false);
+                    rightIndexPressed = -1;
+                } else {
+                    injectKey(matchedKey.keyCode, KeyEvent.ACTION_UP, 0);
+                }
+                handler.removeCallbacksAndMessages("partial_screenshot");
+                leftIndexPressed = -1;
+                break;
+        }
+
+        return true;
+    }
+
+    private boolean handleRightKeyEvent(KeyEvent event) {
+        KeyInfo matchedKey;
+        int matchedKeyIndex;
+
+        if (keys[KEY_RIGHT_UP].match(event)) {
+            matchedKey = keys[KEY_RIGHT_UP];
+            matchedKeyIndex = KEY_RIGHT_UP;
+        } else if (keys[KEY_RIGHT_DOWN].match(event)) {
+            matchedKey = keys[KEY_RIGHT_DOWN];
+            matchedKeyIndex = KEY_RIGHT_DOWN;
+        } else {
+            return false;
+        }
+
+        if (rightIndexPressed != -1 && rightIndexPressed != matchedKeyIndex) {
+            injectKey(keys[rightIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+            rightIndexPressed = -1;
+        }
+
+        switch (event.getAction()) {
+            case KeyEvent.ACTION_DOWN:
+                if (leftIndexPressed != -1) {
+                    injectKey(keys[leftIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                    handler.postDelayed(triggerPartialScreenshot, "partial_screenshot", longPressTimeout);
+                } else {
+                    injectKey(matchedKey.keyCode, KeyEvent.ACTION_DOWN, 0);
+                }
+                if (pm.isInteractive()) {
+                    rightIndexPressed = matchedKeyIndex;
+                }
+                break;
+            case KeyEvent.ACTION_UP:
+                if (leftIndexPressed != -1) {
+                    takeScreenshot(false);
+                    leftIndexPressed = -1;
+                } else {
+                    injectKey(matchedKey.keyCode, KeyEvent.ACTION_UP, 0);
+                }
+                handler.removeCallbacksAndMessages("partial_screenshot");
+                rightIndexPressed = -1;
+                break;
+        }
+
+        return true;
+    }
+
     private String getDeviceName(KeyEvent event) {
         final int deviceId = event.getDeviceId();
         final InputDevice device = InputDevice.getDevice(deviceId);
@@ -177,6 +302,14 @@ public class KeyHandler implements DeviceKeyHandler {
         if (enabled) {
             vibrator.vibrate(50);
         }
+    }
+
+    private void takeScreenshot(final boolean partial) {
+        final int type = partial
+                ? WindowManager.TAKE_SCREENSHOT_SELECTED_REGION
+                : WindowManager.TAKE_SCREENSHOT_FULLSCREEN;
+
+        screenshotHelper.takeScreenshot(type, true, true, handler);
     }
 
     private class KeyInfo {
