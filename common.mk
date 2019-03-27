@@ -306,6 +306,9 @@ PRODUCT_PACKAGES += \
     nqnfcse_access.xml \
     Tag
 
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/nfc,$(TARGET_COPY_OUT_SYSTEM)/etc)
+
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
