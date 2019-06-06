@@ -62,6 +62,8 @@ public class KeyHandler implements DeviceKeyHandler {
     private final int longPressTimeout = ViewConfiguration.getLongPressTimeout();
     private final int longLongPressTimeout = 2000;
     private final int doubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
+    private final int keyRepeatDelay = ViewConfiguration.getKeyRepeatDelay();
+    private final int keyRepeatTimeout = ViewConfiguration.getKeyRepeatTimeout();
 
     private Context context;
     private Vibrator vibrator;
@@ -195,6 +197,7 @@ public class KeyHandler implements DeviceKeyHandler {
 
         if (leftIndexPressed != -1 && leftIndexPressed != matchedKeyIndex) {
             injectKey(keys[leftIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+            handler.removeCallbacksAndMessages("left_repeat");
             leftIndexPressed = -1;
         }
 
@@ -202,9 +205,11 @@ public class KeyHandler implements DeviceKeyHandler {
             case KeyEvent.ACTION_DOWN:
                 if (rightIndexPressed != -1) {
                     injectKey(keys[rightIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                    handler.removeCallbacksAndMessages("right_repeat");
                     handler.postDelayed(triggerPartialScreenshot, "partial_screenshot", longPressTimeout);
                 } else {
                     injectKey(matchedKey.keyCode, KeyEvent.ACTION_DOWN, 0);
+                    scheduleKeyRepeat(matchedKey.keyCode, "left_repeat");
                 }
                 if (pm.isInteractive()) {
                     leftIndexPressed = matchedKeyIndex;
@@ -217,6 +222,7 @@ public class KeyHandler implements DeviceKeyHandler {
                 } else {
                     injectKey(matchedKey.keyCode, KeyEvent.ACTION_UP, 0);
                 }
+                handler.removeCallbacksAndMessages("left_repeat");
                 handler.removeCallbacksAndMessages("partial_screenshot");
                 leftIndexPressed = -1;
                 break;
@@ -241,6 +247,7 @@ public class KeyHandler implements DeviceKeyHandler {
 
         if (rightIndexPressed != -1 && rightIndexPressed != matchedKeyIndex) {
             injectKey(keys[rightIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+            handler.removeCallbacksAndMessages("right_repeat");
             rightIndexPressed = -1;
         }
 
@@ -248,9 +255,11 @@ public class KeyHandler implements DeviceKeyHandler {
             case KeyEvent.ACTION_DOWN:
                 if (leftIndexPressed != -1) {
                     injectKey(keys[leftIndexPressed].keyCode, KeyEvent.ACTION_UP, KeyEvent.FLAG_CANCELED);
+                    handler.removeCallbacksAndMessages("left_repeat");
                     handler.postDelayed(triggerPartialScreenshot, "partial_screenshot", longPressTimeout);
                 } else {
                     injectKey(matchedKey.keyCode, KeyEvent.ACTION_DOWN, 0);
+                    scheduleKeyRepeat(matchedKey.keyCode, "right_repeat");
                 }
                 if (pm.isInteractive()) {
                     rightIndexPressed = matchedKeyIndex;
@@ -263,6 +272,7 @@ public class KeyHandler implements DeviceKeyHandler {
                 } else {
                     injectKey(matchedKey.keyCode, KeyEvent.ACTION_UP, 0);
                 }
+                handler.removeCallbacksAndMessages("right_repeat");
                 handler.removeCallbacksAndMessages("partial_screenshot");
                 rightIndexPressed = -1;
                 break;
@@ -275,6 +285,26 @@ public class KeyHandler implements DeviceKeyHandler {
         final int deviceId = event.getDeviceId();
         final InputDevice device = InputDevice.getDevice(deviceId);
         return device == null ? null : device.getName();
+    }
+
+    private void scheduleKeyRepeat(int code, String token) {
+        final Runnable repeatRunnable = new Runnable() {
+            @Override
+            public void run() {
+                injectKey(code);
+                handler.postDelayed(this, token, keyRepeatDelay);
+            }
+        };
+
+        final Runnable timeoutRunnable = new Runnable() {
+            @Override
+            public void run() {
+                injectKey(code, KeyEvent.ACTION_UP, 0);
+                handler.postDelayed(repeatRunnable, token, keyRepeatDelay);
+            }
+        };
+
+        handler.postDelayed(timeoutRunnable, token, keyRepeatTimeout);
     }
 
     private void injectKey(int code) {
