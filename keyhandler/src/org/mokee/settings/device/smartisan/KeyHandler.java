@@ -49,6 +49,7 @@ public class KeyHandler implements DeviceKeyHandler {
     };
 
     private final int longPressTimeout = ViewConfiguration.getLongPressTimeout();
+    private final int longLongPressTimeout = 2000;
     private final int doubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
 
     private Context context;
@@ -92,7 +93,7 @@ public class KeyHandler implements DeviceKeyHandler {
                         injectKey(KeyEvent.KEYCODE_POWER);
                         doHapticFeedback();
                     }
-                }, longPressTimeout);
+                }, "power_tap", longPressTimeout);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -100,7 +101,7 @@ public class KeyHandler implements DeviceKeyHandler {
                         doHapticFeedback();
                         ongoingPowerLongPress = true;
                     }
-                }, 2000);
+                }, "power_hold", longLongPressTimeout);
                 break;
             case KeyEvent.ACTION_UP:
                 if (ongoingPowerLongPress) {
@@ -108,7 +109,8 @@ public class KeyHandler implements DeviceKeyHandler {
                     ongoingPowerLongPress = false;
                 } else {
                     injectKey(keyHomePress.keyCode, KeyEvent.ACTION_UP, 0);
-                    handler.removeCallbacksAndMessages(null);
+                    handler.removeCallbacksAndMessages("power_tap");
+                    handler.removeCallbacksAndMessages("power_hold");
                 }
                 break;
         }
