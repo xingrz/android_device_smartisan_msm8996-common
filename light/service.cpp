@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 The Android Open Source Project
- * Copyright 2018 The MoKee Open Source Project
+ * Copyright 2018-2019 The MoKee Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.light@2.0-service.icesky"
+#define LOG_TAG "android.hardware.light@2.0-service.smartisan"
 
 #include <android-base/logging.h>
 #include <hidl/HidlTransportSupport.h>

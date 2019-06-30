@@ -14,7 +14,7 @@ on boot
     chmod 0644 /sys/class/leds/red/pause_lo
     chmod 0644 /sys/class/leds/red/pause_hi
 
-service light-hal-2-0 /vendor/bin/hw/android.hardware.light@2.0-service.smartisan
+service vendor.light-hal-2-0-smartisan /vendor/bin/hw/android.hardware.light@2.0-service.smartisan
     class hal
     user system
     group system
