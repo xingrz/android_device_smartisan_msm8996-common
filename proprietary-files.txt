@@ -25,9 +25,6 @@ vendor/lib/libSonyIMX318_Liteon_PdafLibrary.so
 vendor/lib/libSonyIMX318_Primax_PdafLibrary.so
 vendor/lib/libSonyIMX318_Sharp_PdafLibrary.so
 vendor/lib/libflash_pmic.so
-vendor/lib/libjpegdhw.so
-vendor/lib/libjpegdmahw.so
-vendor/lib/libjpegehw.so
 vendor/lib/libmmcamera_atmel_at24c32e_eeprom.so
 vendor/lib/libmmcamera_csidtg.so
 vendor/lib/libmmcamera_dbg.so
@@ -123,9 +120,6 @@ vendor/lib/libmmcamera2_q3a_core.so
 vendor/lib/libmmcamera2_sensor_modules.so
 vendor/lib/libmmcamera2_stats_algorithm.so
 vendor/lib/libmmcamera2_stats_modules.so
-vendor/lib/libmmjpeg.so
-vendor/lib/libmmqjpeg_codec.so
-vendor/lib/libmmqjpegdma.so
 vendor/lib/libois_bu63165_liteon.so
 vendor/lib/libois_bu63165_sharp.so
 vendor/lib/libois_lc898122.so
