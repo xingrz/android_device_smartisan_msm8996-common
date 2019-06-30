@@ -123,7 +123,8 @@ on boot
     chown system system /proc/keypad/left_up
     chown system system /proc/keypad/right_down
     chown system system /proc/keypad/right_up
-    chown system system /proc/keypad/nav_middle
+    chown system system /proc/keypad/home_touch
+    chown system system /proc/keypad/home_press
 
     # Key Disabler
     chown system system /sys/devices/soc/soc:goodix_fp/key_disabled
