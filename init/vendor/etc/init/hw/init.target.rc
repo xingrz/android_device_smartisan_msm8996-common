@@ -481,3 +481,7 @@ service ppd /vendor/bin/mm-pp-dpps
 
 on property:ro.boot.fingerprint.id=*
     setprop ro.hardware.fingerprint ${ro.boot.fingerprint.id}
+
+on property:sys.boot_completed=1
+    restart vendor.camera-provider-2-4
+    restart cameraserver
