@@ -107,7 +107,6 @@ public class KeyHandler implements DeviceKeyHandler {
 
     public KeyEvent handleKeyEvent(KeyEvent event) {
         boolean handled = false;
-        handled = handleHomeTouchKeyEvent(event) || handled;
         handled = handleHomePressKeyEvent(event) || handled;
         handled = handleLeftKeyEvent(event) || handled;
         handled = handleRightKeyEvent(event) || handled;
@@ -152,34 +151,6 @@ public class KeyHandler implements DeviceKeyHandler {
                 }
                 break;
         }
-
-        return true;
-    }
-
-    private boolean handleHomeTouchKeyEvent(KeyEvent event) {
-        // The sensor reports fake DOWN and UP per taps
-        if (event.getAction() != KeyEvent.ACTION_UP) {
-            return false;
-        }
-
-        KeyInfo matchedKey;
-
-        if (keys[KEY_HOME_TOUCH_FPC].match(event)) {
-            matchedKey = keys[KEY_HOME_TOUCH_FPC];
-        } else if (keys[KEY_HOME_TOUCH_GOODIX].match(event)) {
-            matchedKey = keys[KEY_HOME_TOUCH_GOODIX];
-        } else {
-            return false;
-        }
-
-        final long now = SystemClock.uptimeMillis();
-        if (now - lastHomeTouchMillis < doubleTapTimeout) {
-            injectKey(KeyEvent.KEYCODE_APP_SWITCH);
-        } else {
-            injectKey(matchedKey.keyCode);
-        }
-
-        lastHomeTouchMillis = now;
 
         return true;
     }
